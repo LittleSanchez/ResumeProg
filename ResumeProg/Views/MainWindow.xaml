@@ -1,0 +1,30 @@
+﻿<Window x:Class="ResumeProg.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ResumeProg.Views"
+        xmlns:commands="clr-namespace:ResumeProg.ViewModel.Commands"
+        xmlns:vm="clr-namespace:ResumeProg.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800">
+    <Window.Resources>
+        <commands:NextWindowCommand x:Key="NextWindowCommand"/>
+    </Window.Resources>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem InputGestureText="Ctrl+N" Header="_Create new project" Command="{Binding Source={x:Static vm:VM.Instance}, Path=CreateNewFileCommand}"/>
+                <MenuItem InputGestureText="Ctrl+O" Header="_Open project" Command="{Binding Source={x:Static vm:VM.Instance}, Path=OpenFileCommand}"/>
+                <MenuItem InputGestureText="Ctrl+S" Header="_Save" Command="{Binding Source={x:Static vm:VM.Instance}, Path=SaveFileCommand}"/>
+                <MenuItem InputGestureText="Ctrl+Shift+S" Header="_Save as" Command="{Binding Source={x:Static vm:VM.Instance}, Path=SaveAsFileCommand}"/>
+            </MenuItem>
+        </Menu>
+        <TextBlock DockPanel.Dock="Top" FontSize="24" Margin="15" Text="{Binding CurrentPageName}"/>
+        <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+            <Button Command="{Binding Source={x:Static vm:VM.Instance}, Path=NextWindowCommand}" HorizontalAlignment="Right" DockPanel.Dock="Right" Content="Next" Width="100" Height="30" Margin="0 15 15 15"/>
+            <Button Command="{Binding Source={x:Static vm:VM.Instance}, Path=PreviewWindowCommand}" HorizontalAlignment="Right" DockPanel.Dock="Right" Content="Preview" Width="100" Height="30" Margin="15"/>
+        </DockPanel>
+        <Border x:Name="framePane" Margin="15 15 15 0" BorderThickness="1" BorderBrush="LightGray" Padding="5"/>
+    </DockPanel>
+</Window>

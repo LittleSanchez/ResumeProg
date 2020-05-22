@@ -1,0 +1,83 @@
+﻿<Page x:Class="ResumeProg.Views.Pages.WorkPlacesPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=System"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ResumeProg.Views.Pages"
+        xmlns:model="clr-namespace:ResumeProg.Model"
+        xmlns:vm="clr-namespace:ResumeProg.ViewModel"
+        xmlns:ab="clr-namespace:AttachedCommandBehavior;assembly=AttachedCommandBehavior"
+        mc:Ignorable="d" Background="White"
+        Title="WorkPlacesWindow" 
+        x:Name="window" 
+    >
+      <!--Height="600" Width="800"-->
+
+    <Page.Resources>
+        <model:WorkPlace x:Key="tmpWorkPlace"/>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.ColumnSpan="2">
+            <Grid TextBlock.FontSize="16" DockPanel.Dock="Top" Height="180" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="0.4*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Work place" HorizontalAlignment="Center"/>
+                    <TextBox Margin="5" Text="{Binding Source={StaticResource ResourceKey=tmpWorkPlace}, Path=Name}"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <Label Content="Start date" HorizontalAlignment="Center"/>
+                    <DatePicker Margin="5" SelectedDate="{Binding Source={StaticResource ResourceKey=tmpWorkPlace}, Path=StartDate}"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+                    <Label Content="End date" HorizontalAlignment="Center"/>
+                    <DatePicker Margin="5" SelectedDate="{Binding Source={StaticResource ResourceKey=tmpWorkPlace}, Path=EndDate}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <Label Content="Post" HorizontalAlignment="Center"/>
+                    <TextBox Margin="5" Text="{Binding Source={StaticResource ResourceKey=tmpWorkPlace}, Path=Post}"/>
+                </StackPanel>
+                <Button Grid.Row="2" Grid.ColumnSpan="2" Width="150" Content="Add"
+                        Command="{Binding Source={x:Static vm:VM.Instance}, Path=AddListElementCommand}" CommandParameter="{Binding ElementName=listBox}"/>
+            </Grid>
+            <ListBox Tag="{Binding Source={StaticResource ResourceKey=tmpWorkPlace}}" x:Name="listBox" HorizontalContentAlignment="Stretch" 
+                     ab:CommandBehavior.Event="MouseDoubleClick" 
+                     ab:CommandBehavior.CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" 
+                     ab:CommandBehavior.Command="{Binding Source={x:Static vm:VM.Instance}, Path=DeleteListElementCommand}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Work place: "/>
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Post: "/>
+                                <TextBlock Text="{Binding Post}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Start date: "/>
+                                <TextBlock Text="{Binding StartDate}"/>
+                                <TextBlock Text=", end date: "/>
+                                <TextBlock Text="{Binding EndDate}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <model:WorkPlace/>
+            </ListBox>
+        </DockPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,65 @@
+﻿<Page x:Class="ResumeProg.Views.Pages.ExportPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ResumeProg.Views.Pages"
+      xmlns:media="clr-namespace:System.Windows.Media"
+      xmlns:export="clr-namespace:ResumeProg.Model.Export"
+      xmlns:vm="clr-namespace:ResumeProg.ViewModel"
+      mc:Ignorable="d" 
+      Background="White"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ExportPage">
+    <Page.Resources>
+        <media:ImageConverter x:Key="ImageConverter"/>
+    </Page.Resources>
+    <DockPanel Margin="20">
+        <DockPanel DockPanel.Dock="Top" Height="300" Background="WhiteSmoke">
+            <TextBlock DockPanel.Dock="Top" FontSize="20" Text="Select template" Padding="15"/>
+            <!--<ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+                <StackPanel>
+                    
+                <ItemsControl ItemsSource="{Binding Documents}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal">
+
+                            </StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <Image Width="100" Height="150" Margin="15" DockPanel.Dock="Top" Source="{Binding Image, Converter={StaticResource ImageConverter}}"/>
+                                    <TextBlock Text="{Binding FileName}" FontSize="18" HorizontalAlignment="Center" Padding="5" DockPanel.Dock="Top"/>
+                                    <ToggleButton Margin="10" Content="Select" Tag="{Binding}"/>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>-->
+            <ListBox x:Name="listDocuments" VirtualizingPanel.ScrollUnit="Pixel" ItemsSource="{Binding Documents}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel VirtualizingPanel.ScrollUnit="Pixel" Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel Background="LightGray">
+                            <Image Width="100" Height="150" Margin="15" DockPanel.Dock="Top" Source="{Binding Image, Converter={StaticResource ImageConverter}}"/>
+                            <TextBlock Text="{Binding FileName}" FontSize="18" HorizontalAlignment="Center" Padding="5" DockPanel.Dock="Top"/>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" >
+            <Button Content="Export" DockPanel.Dock="Right" Width="100" HorizontalAlignment="Right"
+                    Command="{Binding Source={x:Static vm:VM.Instance}, Path=ExportDocumentCommand}"
+                    CommandParameter="{Binding ElementName=listDocuments}"/>
+        </DockPanel>
+    </DockPanel>
+</Page>

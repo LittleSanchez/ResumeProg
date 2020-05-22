@@ -1,0 +1,45 @@
+﻿<Page x:Class="ResumeProg.Views.Pages.AboutMePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ResumeProg.Views.Pages"
+      xmlns:model="clr-namespace:ResumeProg.Model"
+      xmlns:ab="clr-namespace:AttachedCommandBehavior;assembly=AttachedCommandBehavior"
+      xmlns:vm="clr-namespace:ResumeProg.ViewModel"
+      xmlns:sys="clr-namespace:System;assembly=System"
+      mc:Ignorable="d" 
+      Background="White"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AboutMePage">
+    <Page.Resources>
+        <model:AboutMe x:Key="insert"/>
+    </Page.Resources>
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Height="40" DataContext="{}">
+            <Button DockPanel.Dock="Right" Content="Add" Width="100" Margin="5"
+                    Command="{Binding Source={x:Static vm:VM.Instance}, Path=AddAboutMeListElementCommand}"
+                    CommandParameter="{Binding Source={StaticResource insert}}"/>
+            <TextBox Margin="5" Text="{Binding Source={StaticResource insert}, Path=Value, Mode=TwoWay}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding Source={x:Static vm:VM.Instance}, Path=AddAboutMeListElementCommand}"
+                                CommandParameter="{Binding Source={StaticResource insert}}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+        </DockPanel>
+        <ListBox Margin="5" x:Name="listBox" HorizontalContentAlignment="Stretch"
+                 Tag="{Binding Source={StaticResource insert}, Path=Value, Mode=TwoWay}"
+                     ab:CommandBehavior.Event="MouseDoubleClick" 
+                     ab:CommandBehavior.CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}" 
+                     ab:CommandBehavior.Command="{Binding Source={x:Static vm:VM.Instance}, Path=DeleteAboutMeListElementCommand}"
+                 VirtualizingPanel.ScrollUnit="Pixel">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding Value}" FontSize="18"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</Page>
